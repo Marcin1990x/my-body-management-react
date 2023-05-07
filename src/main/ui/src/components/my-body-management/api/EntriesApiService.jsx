@@ -1,5 +1,8 @@
 import axios from "axios"
 
-export const apiClient = axios.create()
+const apiClient = axios.create(
+    {
+        baseURL: 'http://localhost:8090'
+})
 
 export const retrieveAllEntries = apiClient.get('/entries')

@@ -1,16 +1,18 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { retrieveAllEntries } from "./api/EntriesApiService"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { retrieveAllEntries } from "./api/EntriesApiService";
 
 export default function ListEntriesComponent(){
 
     const navigate = useNavigate()
 
-    const [entries, setEntries] = useState()
+    const [entries, setEntries] = useState([])
+
+    useEffect( () => refreshEntries(), [])
 
     function refreshEntries(){
 
-        retrieveAllEntries()
+        retrieveAllEntries
             .then( response => setEntries(response.data))
             .catch( (error) => console.log(error))
     }
@@ -43,7 +45,7 @@ export default function ListEntriesComponent(){
                         {   
                             entries.map(
                                 entry => (
-                                    <tr>
+                                    <tr key = {entry.id}>
                                         <td>{entry.id}</td>
                                         <td>{entry.username}</td>
                                         <td>{entry.entryDate}</td>
