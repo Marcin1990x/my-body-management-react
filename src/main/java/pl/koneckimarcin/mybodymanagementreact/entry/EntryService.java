@@ -1,11 +1,18 @@
 package pl.koneckimarcin.mybodymanagementreact.entry;
 
 import org.springframework.stereotype.Service;
+import pl.koneckimarcin.mybodymanagementreact.monthly.MonthlySummary;
+
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EntryService {
 
-    /*private MonthlySummary monthlySummary;
+    private MonthlySummary monthlySummary;
 
     public boolean checkForDataDuplicate(LocalDate entryDate, List<Entry> entriesList) {
         for (Entry entry : entriesList) {
@@ -65,8 +72,8 @@ public class EntryService {
             monthlySummaries.add(
                     new MonthlySummary(
                             Month.of(month).toString(),
-                            monthSummaryWeightProgress(monthlyEntriesList)[1],
                             monthSummaryWeightProgress(monthlyEntriesList)[0],
+                            monthSummaryWeightProgress(monthlyEntriesList)[1],
                             monthSummaryTotalSteps(monthlyEntriesList),
                             monthSummaryActiveAndRegenerationDays(monthlyEntriesList)[0],
                             monthSummaryActiveAndRegenerationDays(monthlyEntriesList)[1]
@@ -79,5 +86,5 @@ public class EntryService {
     public int getPageCount(List<Entry> entriesList, int pageSize) {
         double div = (double) entriesList.size() / pageSize;
         return (int) Math.ceil(div);
-    }*/
+    }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { retrieveAllEntries } from "./api/EntriesApiService";
+import { retrieveAllEntriesApi, deleteEntryApi } from "./api/EntriesApiService";
 
 export default function ListEntriesComponent(){
 
@@ -8,17 +8,25 @@ export default function ListEntriesComponent(){
 
     const [entries, setEntries] = useState([])
 
-    useEffect( () => refreshEntries(), [])
+    useEffect( () => refreshEntries())
 
     function refreshEntries(){
-
-        retrieveAllEntries
+        retrieveAllEntriesApi
             .then( response => setEntries(response.data))
             .catch( (error) => console.log(error))
     }
 
     function addNewEntry(){
         navigate('/entry')
+    }
+
+    function deleteEntry(id){
+        console.log(id)
+        deleteEntryApi(id)
+            .then( response => console.log(response),
+            refreshEntries()
+            )
+            .catch( (error) => console.log(error))
     }
 
     return(
@@ -52,7 +60,8 @@ export default function ListEntriesComponent(){
                                         <td>{entry.weight}</td>
                                         <td>{entry.steps}</td>
                                         <td>{entry.comment}</td>
-                                        <td><button className="btn btn-danger">Delete entry</button></td>
+                                        <td><button className="btn btn-danger" 
+                                            onClick = { () => deleteEntry(entry.id) }>Delete entry</button></td>
                                         <td><button className="btn btn-warning">Edit entry</button></td>
                                     </tr>
                                 )

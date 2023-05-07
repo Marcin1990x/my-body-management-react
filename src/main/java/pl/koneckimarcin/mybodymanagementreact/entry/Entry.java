@@ -3,9 +3,6 @@ package pl.koneckimarcin.mybodymanagementreact.entry;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
 
@@ -19,13 +16,8 @@ public class Entry {
     @GeneratedValue
     private int id;
     private String username;
-    @PastOrPresent(message = "The date cannot be from the future.")
     private LocalDate entryDate;
-    @Min(value = 40, message = "Put correct weight.")
-    @Max(value = 150, message = "Put correct weight.")
     private float weight;
-    @Min(value = 1, message = "Please enter the correct number of steps.")
-    @Max(value = 80000, message = "Please enter the correct number of steps.")
     private int steps;
     private String comment;
 
