@@ -8,23 +8,32 @@ export default function ListEntriesComponent(){
 
     const [entries, setEntries] = useState([])
 
-    useEffect( () => refreshEntries())
+    useEffect( () => refreshEntries(), []) // not refreshing :/ 
 
     function refreshEntries(){
+
+        console.log('refreshed')
+
         retrieveAllEntriesApi
-            .then( response => setEntries(response.data))
+            .then( response => {
+                setEntries(response.data)
+                console.log('refreshed setEntries')
+                }
+            )
             .catch( (error) => console.log(error))
     }
 
     function addNewEntry(){
-        navigate('/entry')
+        navigate('/entry/-1')
     }
 
     function deleteEntry(id){
-        console.log(id)
+
         deleteEntryApi(id)
-            .then( response => console.log(response),
-            refreshEntries()
+            .then( 
+                () => {
+                refreshEntries()
+                }
             )
             .catch( (error) => console.log(error))
     }

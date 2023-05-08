@@ -1,9 +1,6 @@
 package pl.koneckimarcin.mybodymanagementreact.entry;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,14 +15,21 @@ public class EntryControllerJpa {
         this.entryService = entryService;
     }
 
-    @GetMapping("entries")
+    @GetMapping("entries-list")
     public List<Entry> listEntries() {
         return entryRepository.findAll();
     }
 
-    @DeleteMapping("entries/{id}")
+    @DeleteMapping("entries-list/{id}")
     public String deleteEntryById(@PathVariable int id) {
-        return "Deleted" + id; // replace with repo deleteById
+        entryRepository.deleteById(id);
+        return "Deleted entry with id: " + id;
+    }
+
+    @PostMapping("entries-list")
+    public Entry addEntry (@RequestBody Entry entry){
+        Entry createdEntry = entryRepository.save(entry);
+        return createdEntry;
     }
 /*
 
