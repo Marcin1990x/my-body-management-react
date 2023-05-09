@@ -19,8 +19,9 @@ public class MyBodyManagementReactApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:3000")
-						.allowedMethods("*");
+						.allowedMethods("*")
+						.allowedOrigins("http://localhost:3000");
+
 			}
 		};
 	}

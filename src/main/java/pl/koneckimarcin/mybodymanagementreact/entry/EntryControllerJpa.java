@@ -1,8 +1,10 @@
 package pl.koneckimarcin.mybodymanagementreact.entry;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class EntryControllerJpa {
@@ -21,15 +23,21 @@ public class EntryControllerJpa {
     }
 
     @DeleteMapping("entries-list/{id}")
-    public String deleteEntryById(@PathVariable int id) {
+    public ResponseEntity<Void> deleteEntryById(@PathVariable int id) {
         entryRepository.deleteById(id);
-        return "Deleted entry with id: " + id;
+        //return "Deleted entry with id: " + id;
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("entries-list")
     public Entry addEntry (@RequestBody Entry entry){
         Entry createdEntry = entryRepository.save(entry);
         return createdEntry;
+    }
+
+    @GetMapping("entry/{id}")
+    public Optional<Entry> retrieveEntry (@PathVariable int id){
+        return entryRepository.findById(id);
     }
 /*
 

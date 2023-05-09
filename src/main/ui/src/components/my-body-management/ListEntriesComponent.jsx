@@ -8,16 +8,14 @@ export default function ListEntriesComponent(){
 
     const [entries, setEntries] = useState([])
 
-    useEffect( () => refreshEntries(), []) // not refreshing :/ 
+    useEffect(() => refreshEntries()) 
 
     function refreshEntries(){
-
-        console.log('refreshed')
 
         retrieveAllEntriesApi
             .then( response => {
                 setEntries(response.data)
-                console.log('refreshed setEntries')
+                console.log(response.data)
                 }
             )
             .catch( (error) => console.log(error))
@@ -27,11 +25,15 @@ export default function ListEntriesComponent(){
         navigate('/entry/-1')
     }
 
+    function updateEntry(id){
+        navigate(`/entry/${id}`)
+    }
+
     function deleteEntry(id){
 
         deleteEntryApi(id)
             .then( 
-                () => {
+                (response) => {            
                 refreshEntries()
                 }
             )
@@ -71,7 +73,8 @@ export default function ListEntriesComponent(){
                                         <td>{entry.comment}</td>
                                         <td><button className="btn btn-danger" 
                                             onClick = { () => deleteEntry(entry.id) }>Delete entry</button></td>
-                                        <td><button className="btn btn-warning">Edit entry</button></td>
+                                        <td><button className="btn btn-warning"
+                                            onClick ={ () => updateEntry(entry.id) }>Edit entry</button></td>
                                     </tr>
                                 )
                             )

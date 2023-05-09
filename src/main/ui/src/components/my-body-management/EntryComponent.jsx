@@ -1,28 +1,59 @@
 import { Formik, Form, Field } from 'formik'
-import { useState } from 'react'
-import { createEntryApi } from './api/EntriesApiService'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { createEntryApi, retrieveEntryApi } from './api/EntriesApiService'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export default function EntryComponent(){
 
     const navigate = useNavigate()
+
+    const {id} = useParams()
 
     const [entryDate, setEntryDate] = useState('')
     const [weight, setWeight] = useState('')
     const [steps, setSteps] = useState('')
     const [comment, setComment] = useState('')
 
+    useEffect( () => retrieveEntry(), [id])
+
+    function retrieveEntry(){
+        if(id != -1){
+            retrieveEntryApi(id)
+                .then( response => 
+                    {
+                        console.log(response)
+                        setEntryDate(response.data.entryDate)
+                        setWeight(response.data.weight)
+                        setSteps(response.data.steps)
+                        setComment(response.data.comment)
+                        console.log(entryDate)
+                        console.log(weight)
+                        console.log(steps)
+                        console.log(comment) // works
+                    })
+                .catch( (error) => console.log(error))    
+        }
+
+    }
+
     function saveEntry(values){
         const entry = {
+            id: id,
             username: 'Maja',
             entryDate: values.entryDate,
             weight: values.weight,
             steps: values.steps,
             comment: values.comment
         }
+
+        if(id == -1) {
         createEntryApi(entry)
-            .then( response => navigate('/entries-list'))
+            .then( response => {
+             navigate('/entries-list')
+            }
+            )
             .catch( error => console.log(error))
+        }
     }
 
     return(
@@ -31,6 +62,7 @@ export default function EntryComponent(){
             <div>
                 <Formik initialValues={ {entryDate, weight, steps, comment}}
                     onSubmit={saveEntry}
+                    enableReinitialize={true}
                 >
                     <Form>
                         <fieldset className="form-group">
