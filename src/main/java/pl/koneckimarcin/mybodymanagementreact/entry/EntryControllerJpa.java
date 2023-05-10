@@ -25,7 +25,6 @@ public class EntryControllerJpa {
     @DeleteMapping("entries-list/{id}")
     public ResponseEntity<Void> deleteEntryById(@PathVariable int id) {
         entryRepository.deleteById(id);
-        //return "Deleted entry with id: " + id;
         return ResponseEntity.noContent().build();
     }
 
@@ -38,6 +37,11 @@ public class EntryControllerJpa {
     @GetMapping("entry/{id}")
     public Optional<Entry> retrieveEntry (@PathVariable int id){
         return entryRepository.findById(id);
+    }
+
+    @PutMapping("entry/{id}")
+    public Entry updateEntry (@PathVariable int id, @RequestBody Entry entry) {
+        return entryRepository.save(entry);
     }
 /*
 

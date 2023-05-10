@@ -1,6 +1,6 @@
 import { Formik, Form, Field } from 'formik'
 import { useEffect, useState } from 'react'
-import { createEntryApi, retrieveEntryApi } from './api/EntriesApiService'
+import { createEntryApi, retrieveEntryApi, updateEntryApi } from './api/EntriesApiService'
 import { useNavigate, useParams } from 'react-router-dom'
 
 export default function EntryComponent(){
@@ -21,15 +21,10 @@ export default function EntryComponent(){
             retrieveEntryApi(id)
                 .then( response => 
                     {
-                        console.log(response)
                         setEntryDate(response.data.entryDate)
                         setWeight(response.data.weight)
                         setSteps(response.data.steps)
                         setComment(response.data.comment)
-                        console.log(entryDate)
-                        console.log(weight)
-                        console.log(steps)
-                        console.log(comment) // works
                     })
                 .catch( (error) => console.log(error))    
         }
@@ -53,6 +48,15 @@ export default function EntryComponent(){
             }
             )
             .catch( error => console.log(error))
+        }
+        else {
+            updateEntryApi(entry, id)
+                .then(response => {
+                    console.log(response)
+                    navigate('/entries-list')
+                    }
+                )
+                .catch(error => console.log(error))
         }
     }
 

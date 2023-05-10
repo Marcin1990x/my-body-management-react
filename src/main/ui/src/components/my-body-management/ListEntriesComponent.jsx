@@ -8,14 +8,13 @@ export default function ListEntriesComponent(){
 
     const [entries, setEntries] = useState([])
 
-    useEffect(() => refreshEntries()) 
+    useEffect(() => refreshEntries(), []) 
 
     function refreshEntries(){
 
-        retrieveAllEntriesApi
+        retrieveAllEntriesApi()
             .then( response => {
                 setEntries(response.data)
-                console.log(response.data)
                 }
             )
             .catch( (error) => console.log(error))
