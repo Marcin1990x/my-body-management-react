@@ -4,7 +4,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.koneckimarcin.mybodymanagementreact.entry.Entry;
-import pl.koneckimarcin.mybodymanagementreact.entry.EntryControllerJpa;
 import pl.koneckimarcin.mybodymanagementreact.entry.EntryRepository;
 import pl.koneckimarcin.mybodymanagementreact.entry.EntryService;
 

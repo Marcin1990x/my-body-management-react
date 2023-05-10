@@ -1,7 +1,8 @@
-import { Formik, Form, Field } from 'formik'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useEffect, useState } from 'react'
 import { createEntryApi, retrieveEntryApi, updateEntryApi } from './api/EntriesApiService'
 import { useNavigate, useParams } from 'react-router-dom'
+import moment from 'moment/moment'
 
 export default function EntryComponent(){
 
@@ -60,26 +61,60 @@ export default function EntryComponent(){
         }
     }
 
+    
+    function validate(values){
+
+        let errors = {}
+        if(values.entryDate == null || values.entryDate == ''){
+            errors.entryDate = 'Please enter correct entry date'
+        }
+        if(values.weight < 30 || values.weight > 150){
+            errors.weight = 'Please enter the correct weight'
+        }
+        if(values.steps < 1 || values.steps > 90000){
+            errors.steps = 'Please enter the correct steps done'
+        }
+        return errors
+    }
+
     return(
         <div className="container">
             <h1>Enter details:</h1>
             <div>
                 <Formik initialValues={ {entryDate, weight, steps, comment}}
-                    onSubmit={saveEntry}
-                    enableReinitialize={true}
+                    onSubmit = {saveEntry}
+                    enableReinitialize = {true}
+                    validate = {validate}
+                    validateOnBlur = {false}
+                    validateOnChange = {false}
                 >
                     <Form>
+                        <ErrorMessage 
+                            name = "entryDate"
+                            component = "div"
+                            className = "alert alert-warning"
+                            />
+                        <ErrorMessage 
+                            name = "weight"
+                            component = "div"
+                            className = "alert alert-warning"
+                            />
+                        <ErrorMessage 
+                            name = "steps"
+                            component = "div"
+                            className = "alert alert-warning"
+                            />        
                         <fieldset className="form-group">
                             <label>Entry Date:</label>
                             <Field type="date" className="form-control" name="entryDate" />
                         </fieldset>
                         <fieldset className="form-group">
                             <label>Weight:</label>
-                            <Field type="text" className="form-control" name="weight" />
+                            <Field type="number" className="form-control" name="weight" />
                         </fieldset>
                         <fieldset className="form-group">
                             <label>Steps:</label>
-                            <Field type="text" className="form-control" name="steps" />
+                            <Field type="number" className="form-control" name="steps" />
                         </fieldset>
                         <fieldset className="form-group">
                             <label>Comment:</label>
