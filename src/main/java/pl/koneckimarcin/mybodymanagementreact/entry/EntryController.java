@@ -1,10 +1,13 @@
 package pl.koneckimarcin.mybodymanagementreact.entry;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class EntryController {
@@ -20,6 +23,12 @@ public class EntryController {
     @GetMapping("entries-list")
     public List<Entry> listEntries() {
         return entryRepository.findAll();
+    }
+
+    @GetMapping("entries-list/{page}")
+    public List<Entry> listEntriesOnePage(@PathVariable int page){
+        return entryRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Order.desc("entryDate"))))
+                .stream().collect(Collectors.toList());
     }
 
     @DeleteMapping("entries-list/{id}")

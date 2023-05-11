@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { retrieveAllEntriesApi, deleteEntryApi } from "./api/EntriesApiService";
+import { retrieveAllEntriesApi, deleteEntryApi, retrieveEntriesOnPageApi } from "./api/EntriesApiService";
 
 export default function ListEntriesComponent(){
 
@@ -8,11 +8,25 @@ export default function ListEntriesComponent(){
 
     const [entries, setEntries] = useState([])
 
-    useEffect(() => refreshEntries(), []) 
+    const [page, setPage] = useState('0')
 
-    function refreshEntries(){
+    // useEffect(() => refreshEntries(), []) 
 
-        retrieveAllEntriesApi()
+    // function refreshEntries(){
+
+    //     retrieveAllEntriesApi()
+    //         .then( response => {
+    //             setEntries(response.data)
+    //             }
+    //         )
+    //         .catch( (error) => console.log(error))
+    // }
+
+    useEffect(() => refreshEntriesOnPage(), []) 
+
+    function refreshEntriesOnPage(){
+
+        retrieveEntriesOnPageApi(page)
             .then( response => {
                 setEntries(response.data)
                 }
@@ -33,12 +47,12 @@ export default function ListEntriesComponent(){
         deleteEntryApi(id)
             .then( 
                 (response) => {            
-                refreshEntries()
+                refreshEntriesOnPage(page)
                 }
             )
             .catch( (error) => console.log(error))
     }
-
+    
     return(
         <div className="container">
             Entries Page
@@ -80,6 +94,20 @@ export default function ListEntriesComponent(){
                         }    
                         </tbody>
                     </table>
+                </div>
+                <div>
+                     <nav aria-label="Page navigation">
+                        <ul class="pagination"> 
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item"><a class="page-link" href="/entries-list/1">1</a></li>
+                            <li class="page-item"><a class="page-link" href="/entries-list/2">2</a></li>
+                            <li class="page-item"><a class="page-link" href="/entries-list/3">3</a></li>
+                            <li class="page-item"><a class="page-link" href="/entries-list/4">4</a></li>
+                            <li class="page-item"><a class="page-link" href="/entries-list/5">5</a></li>
+                            <li class="page-item"><a class="page-link" href="/entries-list/6">6</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav> 
                 </div>
         </div>
     )

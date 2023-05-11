@@ -7,6 +7,8 @@ const apiClient = axios.create(
 
 export const retrieveAllEntriesApi = () => apiClient.get(`/entries-list`)
 
+export const retrieveEntriesOnPageApi = (page) => apiClient.get(`/entries-list/${page}`)
+
 export const deleteEntryApi = (id) => apiClient.delete(`/entries-list/${id}`)
 
 export const createEntryApi = (entry) => apiClient.post(`/entries-list`, entry)

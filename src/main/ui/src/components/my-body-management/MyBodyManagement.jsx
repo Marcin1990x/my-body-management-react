@@ -17,7 +17,7 @@ export default function MyBodyManagement(){
                         <Route path = '/' element = { <LoginComponent /> } />
                         <Route path = '/login' element = { <LoginComponent /> } />
                         <Route path = '/welcome' element = { <WelcomePageComponent /> } />
-                        <Route path = '/entries-list' element = { <ListEntriesComponent /> } />
+                        <Route path = '/entries-list/:page' element = { <ListEntriesComponent /> } />
                         <Route path = '/entry/:id' element = { <EntryComponent /> } />  
                     </Routes>                      
             </BrowserRouter>
