@@ -1,8 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useEffect, useState } from 'react'
-import { createEntryApi, retrieveEntryApi, updateEntryApi } from './api/EntriesApiService'
+import { checkForDuplicatesApi, createEntryApi, retrieveEntryApi, updateEntryApi } from './api/EntriesApiService'
 import { useNavigate, useParams } from 'react-router-dom'
-import moment from 'moment/moment'
 
 export default function EntryComponent(){
 
@@ -15,7 +14,9 @@ export default function EntryComponent(){
     const [steps, setSteps] = useState('')
     const [comment, setComment] = useState('')
 
-    useEffect( () => retrieveEntry(), [id])
+    const [dupliate, setDuplicate] = useState(false)
+
+    useEffect( () => retrieveEntry(), [id] )
 
     function retrieveEntry(){
         if(id != -1){
@@ -29,7 +30,6 @@ export default function EntryComponent(){
                     })
                 .catch( (error) => console.log(error))    
         }
-
     }
 
     function saveEntry(values){
@@ -43,10 +43,15 @@ export default function EntryComponent(){
         }
 
         if(id == -1) {
+
+        checkForDuplicatesApi(values.entryDate)
+            .then( response => console.log(response.data) )    
+            .catch( error => console.log(error) )
+        
         createEntryApi(entry)
             .then( response => {
-             navigate('/entries-list')
-            }
+             navigate('/entries-list/0')
+                }
             )
             .catch( error => console.log(error))
         }
@@ -60,19 +65,18 @@ export default function EntryComponent(){
                 .catch(error => console.log(error))
         }
     }
-
     
     function validate(values){
 
         let errors = {}
         if(values.entryDate == null || values.entryDate == ''){
-            errors.entryDate = 'Please enter correct entry date'
+            errors.entryDate = 'Please enter the correct entry date.'
         }
         if(values.weight < 30 || values.weight > 150){
-            errors.weight = 'Please enter the correct weight'
+            errors.weight = 'Please enter the correct weight.'
         }
         if(values.steps < 1 || values.steps > 90000){
-            errors.steps = 'Please enter the correct steps done'
+            errors.steps = 'Please enter the correct number of steps.'
         }
         return errors
     }

@@ -17,7 +17,7 @@ public class EntryService {
     public boolean checkForDataDuplicate(LocalDate entryDate, List<Entry> entriesList) {
         for (Entry entry : entriesList) {
             if (entry.getEntryDate().equals(entryDate))
-                return false;
+                return false; // means duplicate
         }
         return true;
     }
@@ -83,8 +83,14 @@ public class EntryService {
         return monthlySummaries;
     }
 
-    public int getPageCount(List<Entry> entriesList, int pageSize) {
+    public List<Integer> getPageCount(List<Entry> entriesList, int pageSize) {
         double div = (double) entriesList.size() / pageSize;
-        return (int) Math.ceil(div);
+        int pages =  (int) Math.ceil(div);
+       List <Integer> pagesList = new ArrayList<>();
+
+       for(int i = 0; i < pages; i++)
+           pagesList.add(i);
+
+       return pagesList;
     }
 }

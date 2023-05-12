@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,5 +52,15 @@ public class EntryController {
     @PutMapping("entry/{id}")
     public Entry updateEntry (@PathVariable int id, @RequestBody Entry entry) {
         return entryRepository.save(entry);
+    }
+
+    @GetMapping("pages")
+    public List<Integer> getPagesList(){
+        return entryService.getPageCount(entryRepository.findAll(), 10);
+    }
+
+    @GetMapping("duplicate/{date}")
+    public boolean checkForDuplicate(@PathVariable LocalDate date){
+        return entryService.checkForDataDuplicate(date, entryRepository.findAll());
     }
 }

@@ -16,3 +16,7 @@ export const createEntryApi = (entry) => apiClient.post(`/entries-list`, entry)
 export const retrieveEntryApi = (id) => apiClient.get(`entry/${id}`)
 
 export const updateEntryApi = (entry, id) => apiClient.put(`entry/${id}`, entry)
+
+export const getPagesListApi = () => apiClient.get(`/pages`)
+
+export const checkForDuplicatesApi = (date) => apiClient.get(`/duplicate/${date}`)

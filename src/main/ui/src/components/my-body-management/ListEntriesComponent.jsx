@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { retrieveAllEntriesApi, deleteEntryApi, retrieveEntriesOnPageApi } from "./api/EntriesApiService";
+import { deleteEntryApi, retrieveEntriesOnPageApi, getPagesListApi } from "./api/EntriesApiService";
 
 export default function ListEntriesComponent(){
 
@@ -10,46 +10,48 @@ export default function ListEntriesComponent(){
 
     const [page, setPage] = useState('0')
 
-    // useEffect(() => refreshEntries(), []) 
+    const [pagesList, setPagesList] = useState([])
 
-    // function refreshEntries(){
+    useEffect(() => { 
+        refreshEntriesOnPage()
+        getPagesList()
+            }, [page])  
 
-    //     retrieveAllEntriesApi()
-    //         .then( response => {
-    //             setEntries(response.data)
-    //             }
-    //         )
-    //         .catch( (error) => console.log(error))
-    // }
+    function getPagesList(){
 
-    useEffect(() => refreshEntriesOnPage(), []) 
+        getPagesListApi()
+            .then( response => setPagesList(response.data) )
+            .catch( error => console.log(error))
+    }
 
     function refreshEntriesOnPage(){
 
         retrieveEntriesOnPageApi(page)
-            .then( response => {
-                setEntries(response.data)
-                }
-            )
+            .then( response => setEntries(response.data) )
             .catch( (error) => console.log(error))
     }
 
+    function handlePageButton(pageNumber){
+
+        navigate(`/entries-list/${pageNumber}`)
+        setPage(pageNumber)
+        console.log(pageNumber)
+    }
+
     function addNewEntry(){
+
         navigate('/entry/-1')
     }
 
     function updateEntry(id){
+
         navigate(`/entry/${id}`)
     }
 
     function deleteEntry(id){
-
+        
         deleteEntryApi(id)
-            .then( 
-                (response) => {            
-                refreshEntriesOnPage(page)
-                }
-            )
+            .then( (response) => refreshEntriesOnPage(page) )
             .catch( (error) => console.log(error))
     }
     
@@ -91,23 +93,23 @@ export default function ListEntriesComponent(){
                                     </tr>
                                 )
                             )
-                        }    
+                        }
                         </tbody>
-                    </table>
-                </div>
-                <div>
-                     <nav aria-label="Page navigation">
-                        <ul class="pagination"> 
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="/entries-list/1">1</a></li>
-                            <li class="page-item"><a class="page-link" href="/entries-list/2">2</a></li>
-                            <li class="page-item"><a class="page-link" href="/entries-list/3">3</a></li>
-                            <li class="page-item"><a class="page-link" href="/entries-list/4">4</a></li>
-                            <li class="page-item"><a class="page-link" href="/entries-list/5">5</a></li>
-                            <li class="page-item"><a class="page-link" href="/entries-list/6">6</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav> 
+                    </table>    
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination"> 
+                                {
+                                    pagesList.map(
+                                        pages => (
+                                            <li class="page-item"><a class="page-link" 
+                                                //href={`/entries-list/${pages}`}
+                                                button onClick = { () => handlePageButton(pages) }
+                                                >{pages + 1} </a></li>  
+                                        )
+                                    )
+                                }
+                            </ul>
+                        </nav>       
                 </div>
         </div>
     )
