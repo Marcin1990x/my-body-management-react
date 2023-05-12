@@ -6,6 +6,7 @@ import WelcomePageComponent from "./WelcomePageComponent";
 import LoginComponent from "./LoginComponent";
 import ListEntriesComponent from "./ListEntriesComponent";
 import EntryComponent from "./EntryComponent";
+import ErrorComponent from './ErrorComponent';
 
 
 export default function MyBodyManagement(){
@@ -19,6 +20,7 @@ export default function MyBodyManagement(){
                         <Route path = '/welcome' element = { <WelcomePageComponent /> } />
                         <Route path = '/entries-list/:page' element = { <ListEntriesComponent /> } />
                         <Route path = '/entry/:id' element = { <EntryComponent /> } />  
+                        <Route path = '*' element = { <ErrorComponent />} />
                     </Routes>                      
             </BrowserRouter>
         </div>
