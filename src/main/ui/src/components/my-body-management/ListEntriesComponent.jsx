@@ -35,7 +35,6 @@ export default function ListEntriesComponent(){
 
         navigate(`/entries-list/${pageNumber}`)
         setPage(pageNumber)
-        console.log(pageNumber)
     }
 
     function addNewEntry(){
