@@ -14,8 +14,6 @@ export default function EntryComponent(){
     const [steps, setSteps] = useState('')
     const [comment, setComment] = useState('')
 
-    const [dupliate, setDuplicate] = useState(false)
-
     useEffect( () => retrieveEntry(), [id] )
 
     function retrieveEntry(){
@@ -32,6 +30,13 @@ export default function EntryComponent(){
         }
     }
 
+    function checkForDuplicates(values){
+
+        checkForDuplicatesApi(values.entryDate)
+        .then( response => console.log(response.data)) // inform user about duplicate
+        .catch( error => console.log(error) )
+    }
+
     function saveEntry(values){
         const entry = {
             id: id,
@@ -41,13 +46,9 @@ export default function EntryComponent(){
             steps: values.steps,
             comment: values.comment
         }
-
-        if(id == -1) {
-
-        checkForDuplicatesApi(values.entryDate)
-            .then( response => console.log(response.data) )    
-            .catch( error => console.log(error) )
         
+        if(id == -1) {
+       
         createEntryApi(entry)
             .then( response => {
              navigate('/entries-list/0')
@@ -56,6 +57,7 @@ export default function EntryComponent(){
             .catch( error => console.log(error))
         }
         else {
+
             updateEntryApi(entry, id)
                 .then(response => {
                     console.log(response)
@@ -110,7 +112,8 @@ export default function EntryComponent(){
                             />        
                         <fieldset className="form-group">
                             <label>Entry Date:</label>
-                            <Field type="date" className="form-control" name="entryDate" />
+                            <Field type="date"
+                            className="form-control" name="entryDate" />
                         </fieldset>
                         <fieldset className="form-group">
                             <label>Weight:</label>
