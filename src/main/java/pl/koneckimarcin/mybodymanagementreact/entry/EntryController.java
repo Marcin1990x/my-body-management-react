@@ -26,9 +26,9 @@ public class EntryController {
         return entryRepository.findAll();
     }
 
-    @GetMapping("entries-list/{page}")
-    public List<Entry> listEntriesOnePage(@PathVariable int page){
-        return entryRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Order.desc("entryDate"))))
+    @GetMapping("entries-list/{page}:{limit}")
+    public List<Entry> listEntriesOnePage(@PathVariable int page, @PathVariable int limit){
+        return entryRepository.findAll(PageRequest.of(page, limit, Sort.by(Sort.Order.desc("entryDate"))))
                 .stream().collect(Collectors.toList());
     }
 
@@ -54,9 +54,9 @@ public class EntryController {
         return entryRepository.save(entry);
     }
 
-    @GetMapping("pages")
-    public List<Integer> getPagesList(){
-        return entryService.getPageCount(entryRepository.findAll(), 10);
+    @GetMapping("pages:{limit}")
+    public List<Integer> getPagesList(@PathVariable int limit){
+        return entryService.getPageCount(entryRepository.findAll(), limit);
     }
 
     @GetMapping("duplicate/{date}")

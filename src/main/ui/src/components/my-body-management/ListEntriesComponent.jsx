@@ -9,24 +9,25 @@ export default function ListEntriesComponent(){
     const [entries, setEntries] = useState([])
 
     const [page, setPage] = useState('0')
+    const [limit, setLimit] = useState('10')
 
     const [pagesList, setPagesList] = useState([])
 
     useEffect(() => { 
         refreshEntriesOnPage()
         getPagesList()
-            }, [page])  
+            }, [page, limit])  
 
     function getPagesList(){
 
-        getPagesListApi()
+        getPagesListApi(limit)
             .then( response => setPagesList(response.data) )
             .catch( error => console.log(error))
     }
 
     function refreshEntriesOnPage(){
 
-        retrieveEntriesOnPageApi(page)
+        retrieveEntriesOnPageApi(page, limit)
             .then( response => setEntries(response.data) )
             .catch( (error) => console.log(error))
     }
@@ -52,6 +53,11 @@ export default function ListEntriesComponent(){
         deleteEntryApi(id)
             .then( (response) => refreshEntriesOnPage(page) )
             .catch( (error) => console.log(error))
+    }
+
+    function handleSelect(value){
+        console.log(value)
+        setLimit(value)
     }
     
     return(
@@ -101,14 +107,19 @@ export default function ListEntriesComponent(){
                                     pagesList.map(
                                         pages => (
                                             <li class="page-item"><a class="page-link" 
-                                                //href={`/entries-list/${pages}`}
                                                 button onClick = { () => handlePageButton(pages) }
                                                 >{pages + 1} </a></li>  
                                         )
                                     )
                                 }
                             </ul>
-                        </nav>       
+                        </nav>
+                        <select class="form-select" aria-label="Default select example" 
+                            onChange={ (val) => handleSelect(val.target.value)}>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                        </select>       
                 </div>
         </div>
     )

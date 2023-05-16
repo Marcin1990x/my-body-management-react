@@ -7,7 +7,7 @@ const apiClient = axios.create(
 
 export const retrieveAllEntriesApi = () => apiClient.get(`/entries-list`)
 
-export const retrieveEntriesOnPageApi = (page) => apiClient.get(`/entries-list/${page}`)
+export const retrieveEntriesOnPageApi = (page, limit) => apiClient.get(`/entries-list/${page}:${limit}`)
 
 export const deleteEntryApi = (id) => apiClient.delete(`/entries-list/${id}`)
 
@@ -17,6 +17,6 @@ export const retrieveEntryApi = (id) => apiClient.get(`entry/${id}`)
 
 export const updateEntryApi = (entry, id) => apiClient.put(`entry/${id}`, entry)
 
-export const getPagesListApi = () => apiClient.get(`/pages`)
+export const getPagesListApi = (limit) => apiClient.get(`/pages:${limit}`)
 
 export const checkForDuplicatesApi = (date) => apiClient.get(`/duplicate/${date}`)
