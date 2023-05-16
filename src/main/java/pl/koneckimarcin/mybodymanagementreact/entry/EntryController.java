@@ -26,9 +26,10 @@ public class EntryController {
         return entryRepository.findAll();
     }
 
-    @GetMapping("entries-list/{page}:{limit}")
-    public List<Entry> listEntriesOnePage(@PathVariable int page, @PathVariable int limit){
-        return entryRepository.findAll(PageRequest.of(page, limit, Sort.by(Sort.Order.desc("entryDate"))))
+    @GetMapping("entries-list/{page}:{limit}:{sortType}")
+    public List<Entry> listEntriesOnePage(@PathVariable int page,
+                                          @PathVariable int limit, @PathVariable int sortType){
+        return entryRepository.findAll(PageRequest.of(page, limit, Sort.by(entryService.sortType(sortType))))
                 .stream().collect(Collectors.toList());
     }
 

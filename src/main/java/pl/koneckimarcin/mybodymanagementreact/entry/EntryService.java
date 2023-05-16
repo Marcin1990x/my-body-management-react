@@ -1,5 +1,6 @@
 package pl.koneckimarcin.mybodymanagementreact.entry;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.koneckimarcin.mybodymanagementreact.monthly.MonthlySummary;
 
@@ -92,5 +93,19 @@ public class EntryService {
            pagesList.add(i);
 
        return pagesList;
+    }
+
+    public Sort.Order sortType(int sortTypeSelect){
+
+        switch (sortTypeSelect){
+
+            case 1: return Sort.Order.desc("entryDate");
+            case 2: return Sort.Order.asc("entryDate");
+            case 3: return Sort.Order.desc("weight");
+            case 4: return Sort.Order.asc("weight");
+            case 5: return Sort.Order.desc("steps");
+            case 6: return Sort.Order.asc("steps");
+        }
+        return null;
     }
 }

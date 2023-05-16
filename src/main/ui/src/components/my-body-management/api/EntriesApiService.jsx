@@ -7,7 +7,7 @@ const apiClient = axios.create(
 
 export const retrieveAllEntriesApi = () => apiClient.get(`/entries-list`)
 
-export const retrieveEntriesOnPageApi = (page, limit) => apiClient.get(`/entries-list/${page}:${limit}`)
+export const retrieveEntriesOnPageApi = (page, limit, sortType) => apiClient.get(`/entries-list/${page}:${limit}:${sortType}`)
 
 export const deleteEntryApi = (id) => apiClient.delete(`/entries-list/${id}`)
 

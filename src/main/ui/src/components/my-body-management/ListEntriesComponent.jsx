@@ -10,13 +10,14 @@ export default function ListEntriesComponent(){
 
     const [page, setPage] = useState('0')
     const [limit, setLimit] = useState('10')
+    const [sortType, setSortType] = useState('1')
 
     const [pagesList, setPagesList] = useState([])
 
     useEffect(() => { 
         refreshEntriesOnPage()
         getPagesList()
-            }, [page, limit])  
+            }, [page, limit, sortType])  
 
     function getPagesList(){
 
@@ -27,7 +28,7 @@ export default function ListEntriesComponent(){
 
     function refreshEntriesOnPage(){
 
-        retrieveEntriesOnPageApi(page, limit)
+        retrieveEntriesOnPageApi(page, limit, sortType)
             .then( response => setEntries(response.data) )
             .catch( (error) => console.log(error))
     }
@@ -56,9 +57,18 @@ export default function ListEntriesComponent(){
     }
 
     function handleSelect(value){
-        console.log(value)
+
+        setPage(0)
+        navigate('/entries-list/0')
         setLimit(value)
     }
+
+    function handleSortButton(sortType){
+
+        setSortType(sortType)
+    }
+
+
     
     return(
         <div className="container">
@@ -72,9 +82,18 @@ export default function ListEntriesComponent(){
                             <tr>
                                 <th>ID</th>
                                 <th>USERNAME</th>
-                                <th>ENTRY DATE</th>
-                                <th>WEIGHT</th>
-                                <th>STEPS</th>
+                                <th>ENTRY DATE <button type = "button" class="btn btn-outline-secondary btn-sm"
+                                    onClick={ () => handleSortButton('1')}>↓</button>
+                                        <button type = "button" class="btn btn-outline-secondary btn-sm"
+                                    onClick={ () => handleSortButton('2')}>↑</button></th>
+                                <th>WEIGHT <button type = "button" class="btn btn-outline-secondary btn-sm"
+                                    onClick={ () => handleSortButton('3')}>↓</button>
+                                        <button type = "button" class="btn btn-outline-secondary btn-sm"
+                                    onClick={ () => handleSortButton('4')}>↑</button></th>
+                                <th>STEPS <button type = "button" class="btn btn-outline-secondary btn-sm"
+                                    onClick={ () => handleSortButton('5')}>↓</button>
+                                        <button type = "button" class="btn btn-outline-secondary btn-sm"
+                                    onClick={ () => handleSortButton('6')}>↑</button></th>
                                 <th>COMMENT</th>
                                 <th>DELETE</th>
                                 <th>UPDATE</th>
@@ -114,12 +133,14 @@ export default function ListEntriesComponent(){
                                 }
                             </ul>
                         </nav>
-                        <select class="form-select" aria-label="Default select example" 
-                            onChange={ (val) => handleSelect(val.target.value)}>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                        </select>       
+                        <div class = "container w-25">
+                            <select class="form-select" aria-label="Default select example"
+                                onChange={ (val) => handleSelect(val.target.value)}>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                            </select>  
+                        </div>         
                 </div>
         </div>
     )
