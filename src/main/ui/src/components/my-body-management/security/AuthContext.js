@@ -34,7 +34,7 @@ const [token, setToken] = useState(null)
 
             if(response.status == 200) {
 
-                const jwtToken = 'Bearer' + response.data.token
+                const jwtToken = 'Bearer ' + response.data.token
 
                 setAuthenticated(true)
                 setToken(jwtToken)

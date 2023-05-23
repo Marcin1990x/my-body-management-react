@@ -1,8 +1,7 @@
-import axios from "axios"
+import { apiClient } from "./ApiClient"
 
-const apiClient = axios.create(
+export const retrieveMonthlySummaryApi = (token)  => apiClient.get(`/welcome`, 
     {
-        baseURL: 'http://localhost:8090'
-})
-
-export const retrieveMonthlySummaryApi = apiClient.get('/welcome')
+    headers: { 'Authorization': token }
+    }
+)

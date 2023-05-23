@@ -1,14 +1,19 @@
 import { useNavigate } from "react-router";
 import { retrieveMonthlySummaryApi } from "./api/WelcomeApiService";
 import { useEffect, useState } from "react";
+import { useAuth } from "./security/AuthContext";
 
 export default function WelcomePageComponent(){
+
+    const authContext = useAuth()
+
+    const token = authContext.token
 
     const navigate = useNavigate()
 
     const [summary, setSummary] = useState([])
 
-    useEffect( () => monthlySummary() )
+    useEffect( () => monthlySummary(), [] )
 
     function handleSubmit(){
         navigate(`/entries-list/0`)
@@ -16,7 +21,7 @@ export default function WelcomePageComponent(){
 
     function monthlySummary(){
 
-        retrieveMonthlySummaryApi
+        retrieveMonthlySummaryApi(token)
             .then( 
                 response =>
                     { 

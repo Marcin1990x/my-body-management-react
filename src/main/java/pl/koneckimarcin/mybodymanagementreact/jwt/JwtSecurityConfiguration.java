@@ -35,7 +35,8 @@ public class JwtSecurityConfiguration {
 
         httpSecurity.authorizeHttpRequests(
                 auth -> {
-                    auth.anyRequest().authenticated();
+                    auth.requestMatchers("/authenticate").permitAll();
+                    auth.anyRequest().permitAll();
                 }
         );
         httpSecurity.sessionManagement(
@@ -58,7 +59,7 @@ public class JwtSecurityConfiguration {
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user = User
-                .withUsername("Maja")
+                .withUsername("maja")
                 .password("maja")
                 .passwordEncoder( string -> passwordEncoder().encode(string))
                 //.authorities("all")
