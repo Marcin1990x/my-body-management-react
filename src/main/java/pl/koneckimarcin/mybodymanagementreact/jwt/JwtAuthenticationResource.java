@@ -21,15 +21,15 @@ public class JwtAuthenticationResource {
 
     @PostMapping("/authenticate")
     public JwtResponse authenticate(Authentication authentication) {
-        return new JwtResponse( createToken(authentication));
+        return new JwtResponse(createToken(authentication));
     }
 
-    private String createToken (Authentication authentication){
+    private String createToken(Authentication authentication) {
 
         var claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(Instant.now())
-                .expiresAt(Instant.now().plusSeconds(60 * 15))
+                .expiresAt(Instant.now().plusSeconds(60 * 30))
                 .subject(authentication.getName())
                 .claim("scope", createScope(authentication))
                 .build();
@@ -39,14 +39,14 @@ public class JwtAuthenticationResource {
         return jwtEncoder.encode(parameters).getTokenValue();
     }
 
-    private String createScope(Authentication authentication){
+    private String createScope(Authentication authentication) {
 
         return authentication.getAuthorities().stream()
-                .map( a -> a.getAuthority())
+                .map(a -> a.getAuthority())
                 .collect(Collectors.joining(" "));
     }
 }
 
-record JwtResponse (String token) {
+record JwtResponse(String token) {
 
 }

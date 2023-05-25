@@ -2,11 +2,7 @@ import { apiClient } from "./ApiClient"
 
 export const retrieveAllEntriesApi = () => apiClient.get(`/entries-list`)
 
-export const retrieveEntriesOnPageApi = (page, limit, sortType, token) => apiClient.get(`/entries-list/${page}:${limit}:${sortType}`,
-    {
-        headers: { Authorization: token}
-    }
-)
+export const retrieveEntriesOnPageApi = (page, limit, sortType) => apiClient.get(`/entries-list/${page}:${limit}:${sortType}`)
 
 export const deleteEntryApi = (id) => apiClient.delete(`/entries-list/${id}`)
 

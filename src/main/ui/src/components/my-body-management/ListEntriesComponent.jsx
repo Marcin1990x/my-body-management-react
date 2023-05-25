@@ -82,17 +82,17 @@ export default function ListEntriesComponent(){
                             <tr>
                                 <th>ID</th>
                                 <th>USERNAME</th>
-                                <th>ENTRY DATE <button type = "button" class="btn btn-outline-secondary btn-sm"
+                                <th>ENTRY DATE <button type = "button" className="btn btn-outline-secondary btn-sm"
                                     onClick={ () => handleSortButton('1')}>↓</button>
-                                        <button type = "button" class="btn btn-outline-secondary btn-sm"
+                                        <button type = "button" className="btn btn-outline-secondary btn-sm"
                                     onClick={ () => handleSortButton('2')}>↑</button></th>
-                                <th>WEIGHT <button type = "button" class="btn btn-outline-secondary btn-sm"
+                                <th>WEIGHT <button type = "button" className="btn btn-outline-secondary btn-sm"
                                     onClick={ () => handleSortButton('3')}>↓</button>
-                                        <button type = "button" class="btn btn-outline-secondary btn-sm"
+                                        <button type = "button" className="btn btn-outline-secondary btn-sm"
                                     onClick={ () => handleSortButton('4')}>↑</button></th>
-                                <th>STEPS <button type = "button" class="btn btn-outline-secondary btn-sm"
+                                <th>STEPS <button type = "button" className="btn btn-outline-secondary btn-sm"
                                     onClick={ () => handleSortButton('5')}>↓</button>
-                                        <button type = "button" class="btn btn-outline-secondary btn-sm"
+                                        <button type = "button" className="btn btn-outline-secondary btn-sm"
                                     onClick={ () => handleSortButton('6')}>↑</button></th>
                                 <th>COMMENT</th>
                                 <th>DELETE</th>

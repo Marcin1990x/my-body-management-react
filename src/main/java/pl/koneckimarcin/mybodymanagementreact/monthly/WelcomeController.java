@@ -21,7 +21,7 @@ public class WelcomeController {
     }
 
     @GetMapping("/welcome")
-    public List<MonthlySummary> monthlySummary(){
+    public List<MonthlySummary> monthlySummary() {
 
         List<Entry> entries = entryRepository.findAll(Sort.by(Sort.Order.desc("entryDate")));
         return entryService.monthlySummaries(entries);

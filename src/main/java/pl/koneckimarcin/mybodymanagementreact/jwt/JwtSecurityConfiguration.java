@@ -33,26 +33,26 @@ public class JwtSecurityConfiguration {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
+        httpSecurity.cors();
+
         httpSecurity.authorizeHttpRequests(
                 auth -> {
                     auth.requestMatchers("/authenticate").permitAll();
-                    auth.anyRequest().permitAll();
+                    auth.anyRequest().authenticated();
                 }
         );
         httpSecurity.sessionManagement(
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
         httpSecurity.httpBasic(Customizer.withDefaults());
-
         httpSecurity.csrf().disable();
-
         httpSecurity.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 
         return httpSecurity.build();
     }
 
     @Bean
-    BCryptPasswordEncoder passwordEncoder(){
+    BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -61,7 +61,7 @@ public class JwtSecurityConfiguration {
         UserDetails user = User
                 .withUsername("maja")
                 .password("maja")
-                .passwordEncoder( string -> passwordEncoder().encode(string))
+                .passwordEncoder(string -> passwordEncoder().encode(string))
                 //.authorities("all")
                 // encode
                 .roles("USER")
@@ -108,7 +108,7 @@ public class JwtSecurityConfiguration {
     }
 
     @Bean
-    public JwtEncoder jwtEncoder ( JWKSource<SecurityContext> jwkSource ) {
+    public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
         return new NimbusJwtEncoder(jwkSource);
     }
 
