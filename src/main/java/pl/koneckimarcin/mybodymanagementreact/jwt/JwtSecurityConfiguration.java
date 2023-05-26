@@ -62,8 +62,6 @@ public class JwtSecurityConfiguration {
                 .withUsername("maja")
                 .password("maja")
                 .passwordEncoder(string -> passwordEncoder().encode(string))
-                //.authorities("all")
-                // encode
                 .roles("USER")
                 .build();
 
